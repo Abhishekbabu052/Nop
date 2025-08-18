@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f9f9;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 220px;
+      background: #00796b;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding-top: 2rem;
+      position: fixed;
+      height: 100%;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: white;
+      padding: 1rem 2rem;
+      display: block;
+      transition: background 0.3s ease;
+    }
+
+    .sidebar a:hover, .sidebar a.active {
+      background-color: #00bfa5;
+    }
+
+    .main {
+      margin-left: 220px;
+      padding: 2rem;
+      width: 100%;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    h1 {
+      color: #00796b;
+      margin-bottom: 1rem;
+    }
+
+    .card {
+      background: white;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>Admin</h2>
+    <a href="#" class="active" onclick="showSection('medicines')">Medicines</a>
+    <a href="#" onclick="showSection('orders')">Orders</a>
+    <a href="#" onclick="showSection('profile')">Profile</a>
+  </div>
+
+  <div class="main">
+    <div id="medicines" class="section active">
+      <h1>Medicines</h1>
+      <input type="text" id="searchInput" placeholder="Search medicines..." onkeyup="filterMedicines()" style="padding:10px; width:100%; max-width:400px; margin:10px 0; border-radius:6px; border:1px solid #ccc;" />
+      
+      <div class="card">
+        <p><strong>Dolo 650</strong> - ₹30</p>
+        <p>Used for fever & pain relief.</p>
+      </div>
+      <div class="card">
+        <p><strong>Limcee</strong> - ₹26</p>
+        <p>Vitamin C supplement to boost immunity.</p>
+      </div>
+    </div>
+
+    <div id="orders" class="section">
+      <h1>Orders</h1>
+      <div class="card">
+        <p><strong>Order #1001</strong></p>
+        <p>Name: Rahul</p>
+        <p>Medicine: Dolo 650 | Qty: 2</p>
+        <p>Status: Confirmed</p>
+      </div>
+      <div class="card">
+        <p><strong>Order #1002</strong></p>
+        <p>Name: Priya</p>
+        <p>Medicine: Limcee | Qty: 1</p>
+        <p>Status: Pending</p>
+      </div>
+    </div>
+
+    <div id="profile" class="section">
+      <h1>Admin Profile</h1>
+      <div class="card">
+        <p>Welcome, Admin!</p>
+        <p><button onclick="logout()">Logout</button></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showSection(id) {
+      // Hide all
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+
+      // Remove active class from all links
+      document.querySelectorAll('.sidebar a').forEach(link => {
+        link.classList.remove('active');
+      });
+
+      // Show selected
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function logout() {
+      alert("Logged out!");
+      window.location.href = "admin-login.html"; // or your login page path
+    }
+  </script>
+
+</body>
+</html>
