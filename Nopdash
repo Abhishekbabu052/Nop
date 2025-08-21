@@ -3,152 +3,192 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Dashboard</title>
+  <title>Login / Signup</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 
+  <!-- AOS Animation Library -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
+      background: linear-gradient(135deg, #00bfa5, #00796b);
       font-family: 'Poppins', sans-serif;
-      background-color: #f4f9f9;
+      height: 100vh;
       display: flex;
-      min-height: 100vh;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
     }
 
-    .sidebar {
-      width: 220px;
-      background: #00796b;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      padding-top: 2rem;
-      position: fixed;
-      height: 100%;
-    }
-
-    .sidebar h2 {
+    .container {
+      background-color: #ffffff;
+      color: #333;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 400px;
       text-align: center;
-      margin-bottom: 2rem;
+      position: relative;
     }
 
-    .sidebar a {
-      text-decoration: none;
-      color: white;
-      padding: 1rem 2rem;
-      display: block;
-      transition: background 0.3s ease;
+    .tab {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 25px;
+    }
+    .tab button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      background: #eee;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .tab button.active {
+      background: linear-gradient(to right, #00bfa5, #00796b);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 0 10px rgba(0, 191, 165, 0.4);
     }
 
-    .sidebar a:hover, .sidebar a.active {
-      background-color: #00bfa5;
-    }
-
-    .main {
-      margin-left: 220px;
-      padding: 2rem;
-      width: 100%;
-    }
-
-    .section {
+    .form {
       display: none;
+      animation: fadeSlide 0.6s ease;
     }
-
-    .section.active {
+    .form.active {
       display: block;
     }
-
-    h1 {
-      color: #00796b;
-      margin-bottom: 1rem;
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .card {
-      background: white;
-      padding: 1rem;
-      margin: 1rem 0;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    h2 {
+      margin-bottom: 20px;
+      font-size: 26px;
+      color: #00796b;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    input:focus {
+      outline: none;
+      border-color: #00bfa5;
+    }
+
+    button {
+      background: linear-gradient(to right, #00bfa5, #00796b);
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 191, 165, 0.4);
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: -10px;
+      margin-bottom: 15px;
     }
   </style>
 </head>
 <body>
 
-  <div class="sidebar">
-    <h2>Admin</h2>
-    <a href="#" class="active" onclick="showSection('medicines')">Medicines</a>
-    <a href="#" onclick="showSection('orders')">Orders</a>
-    <a href="#" onclick="showSection('profile')">Profile</a>
-  </div>
-
-  <div class="main">
-    <div id="medicines" class="section active">
-      <h1>Medicines</h1>
-      <input type="text" id="searchInput" placeholder="Search medicines..." onkeyup="filterMedicines()" style="padding:10px; width:100%; max-width:400px; margin:10px 0; border-radius:6px; border:1px solid #ccc;" />
-      
-      <div class="card">
-        <p><strong>Dolo 650</strong> - ₹30</p>
-        <p>Used for fever & pain relief.</p>
-      </div>
-      <div class="card">
-        <p><strong>Limcee</strong> - ₹26</p>
-        <p>Vitamin C supplement to boost immunity.</p>
-      </div>
+  <div class="container" data-aos="zoom-in">
+    <div class="tab">
+      <button class="tablinks active" onclick="openForm(event, 'signin')">Sign In</button>
+      <button class="tablinks" onclick="openForm(event, 'signup')">Sign Up</button>
     </div>
 
-    <div id="orders" class="section">
-      <h1>Orders</h1>
-      <div class="card">
-        <p><strong>Order #1001</strong></p>
-        <p>Name: Rahul</p>
-        <p>Medicine: Dolo 650 | Qty: 2</p>
-        <p>Status: Confirmed</p>
-      </div>
-      <div class="card">
-        <p><strong>Order #1002</strong></p>
-        <p>Name: Priya</p>
-        <p>Medicine: Limcee | Qty: 1</p>
-        <p>Status: Pending</p>
-      </div>
+    <!-- Sign In -->
+    <div id="signin" class="form active">
+      <h2>Sign In</h2>
+      <form id="signinForm">
+        <input type="text" id="signin-username" placeholder="Enter Username" required />
+        <input type="password" id="signin-password" placeholder="Enter Password" required />
+        <div id="signinError" class="error"></div>
+        <button type="submit">Login</button>
+      </form>
     </div>
 
-    <div id="profile" class="section">
-      <h1>Admin Profile</h1>
-      <div class="card">
-        <p>Welcome, Admin!</p>
-        <p><button onclick="logout()">Logout</button></p>
-      </div>
+    <!-- Sign Up -->
+    <div id="signup" class="form">
+      <h2>Sign Up</h2>
+      <form id="signupForm">
+        <input type="text" id="fullname" placeholder="Full Name" required />
+        <input type="text" id="signup-username" placeholder="Choose Username" required />
+        <input type="password" id="signup-password" placeholder="Password" required />
+        <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+        <div id="signupError" class="error"></div>
+        <button type="submit">Register</button>
+      </form>
     </div>
   </div>
 
+  <!-- AOS Script -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
   <script>
-    function showSection(id) {
-      // Hide all
-      document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active');
-      });
+    AOS.init();
 
-      // Remove active class from all links
-      document.querySelectorAll('.sidebar a').forEach(link => {
-        link.classList.remove('active');
-      });
+    // Tab switch
+    function openForm(evt, formName) {
+      const forms = document.getElementsByClassName("form");
+      const tabs = document.getElementsByClassName("tablinks");
+      for (let i = 0; i < forms.length; i++) forms[i].classList.remove("active");
+      for (let i = 0; i < tabs.length; i++) tabs[i].classList.remove("active");
 
-      // Show selected
-      document.getElementById(id).classList.add('active');
-      event.target.classList.add('active');
+      document.getElementById(formName).classList.add("active");
+      evt.currentTarget.classList.add("active");
     }
 
-    function logout() {
-      alert("Logged out!");
-      window.location.href = "admin-login.html"; // or your login page path
-    }
+    // Sign In validation
+    document.getElementById("signinForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const user = document.getElementById("signin-username").value.trim();
+      const pass = document.getElementById("signin-password").value;
+
+      if (user === "Admin" && pass === "00007777") {
+        window.location.href = "https://www.google.com";
+      } else {
+        document.getElementById("signinError").textContent = "Invalid username or password";
+      }
+    });
+
+    // Sign Up validation (just example)
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const pass = document.getElementById("signup-password").value;
+      const confirm = document.getElementById("confirm-password").value;
+
+      if (pass !== confirm) {
+        document.getElementById("signupError").textContent = "Passwords do not match";
+      } else {
+        document.getElementById("signupError").textContent = "";
+        alert("Account created successfully! 🎉");
+      }
+    });
   </script>
-
 </body>
 </html>
